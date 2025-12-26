@@ -15,6 +15,9 @@ Darker midnight theme with Nord-inspired colors
 
 ![cursor-dark-midnight](shots/midnight.png)
 
+### cursor-dark-enhanced
+Enhanced dark theme with a clean palette approach inspired by Vesper. Features organized color definitions, comprehensive TreeSitter support, and modern plugin integrations.
+
 ### cursor-light
 Light theme with high contrast
 
@@ -52,6 +55,8 @@ Set the colorscheme in your Neovim configuration:
 vim.cmd.colorscheme('cursor-dark')
 -- or
 vim.cmd.colorscheme('cursor-dark-midnight')
+-- or
+vim.cmd.colorscheme('cursor-dark-enhanced')
 -- or
 vim.cmd.colorscheme('cursor-light')
 ```
