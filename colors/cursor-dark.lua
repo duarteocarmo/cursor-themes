@@ -10,7 +10,7 @@ local palette = {
   bg = '#181818',
   bg_elevated = '#141414',
   bg_hover = '#262626',
-  bg_selected = '#303030',
+  bg_selected = '#404040',
 
   fg = '#e4e4e4',
   fg_bright = '#ffffff',
@@ -35,9 +35,9 @@ local palette = {
   deleted = '#e34671',
   deleted_bright = '#fc6b83',
 
-  line_nr = '#424242',
+  line_nr = '#e4e4e4',
   line_nr_active = '#e4e4e4',
-  border = '#262626',
+  border = '#e4e4e4',
   search = '#88c0d0',
 }
 
