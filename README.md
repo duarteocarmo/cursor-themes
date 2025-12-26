@@ -24,7 +24,7 @@ Modern Neovim colorschemes inspired by [Cursor](https://cursor.com/).
   priority = 1000,
 }
 ```
-Or use with any other plugin manager.
+You can also use any other plugin manager - it should work.
 
 ## Usage
 
