@@ -1,17 +1,17 @@
 # Cursor Themes for Neovim
 
-Modern Neovim colorschemes with organized palette structures inspired by Vesper. All themes share a common highlight system with unique color palettes.
+Modern Neovim colorschemes inspired by [Cursor](https://cursor.com/). 
 
 ## Themes
 
 ### cursor-dark
-Refined dark theme with vibrant colors and semantic palette organization.
+![cursor-dark](shots/cursor-dark.png)
 
 ### cursor-dark-midnight
-Darker midnight theme with Nord-inspired colors and a muted palette.
+![cursor-dark-midnight](shots/cursor-dark-midnight.png)
 
 ### cursor-light
-Light theme with high contrast and clean palette structure.
+![cursor-light](shots/cursor-light.png)
 
 ## Installation
 
@@ -24,18 +24,7 @@ Light theme with high contrast and clean palette structure.
   priority = 1000,
 }
 ```
-
-### Using [packer.nvim](https://github.com/wbthomason/packer.nvim)
-
-```lua
-use 'duarteocarmo/cursor-themes.nvim'
-```
-
-### Using vim-plug
-
-```vim
-Plug 'duarteocarmo/cursor-themes.nvim'
-```
+Or use with any other plugin manager.
 
 ## Usage
 
