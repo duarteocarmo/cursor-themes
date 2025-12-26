@@ -9,32 +9,24 @@ end
 
 vim.g.colors_name = 'cursor-dark-enhanced'
 
--- ╭──────────────────────────────────────────────────────────╮
--- │ Palette                                                   │
--- ╰──────────────────────────────────────────────────────────╯
-
 local palette = {
-  -- Background variants
   bg = '#141414',
   bg_elevated = '#181818',
   bg_hover = '#262626',
   bg_selected = '#303030',
   bg_visual = '#404040',
 
-  -- Foreground/text hierarchy
   fg = '#e4e4e4',
   fg_bright = '#ffffff',
   fg_muted = '#a0a0a0',
   fg_dim = '#626262',
 
-  -- Core syntax colors
   comment = '#5e5e5e',
   string = '#e394dc',
   accent = '#efb080',
   keyword = '#82d2ce',
   number = '#ebc88d',
 
-  -- UI feedback
   error = '#fc6b83',
   error_dark = '#b80049',
   warning = '#f1b467',
@@ -43,7 +35,6 @@ local palette = {
   info_dark = '#81a1c1',
   hint = '#a0a0a0',
 
-  -- Git/diff colors
   added = '#3fa266',
   added_bright = '#70b489',
   changed = '#d2943e',
@@ -51,20 +42,14 @@ local palette = {
   deleted = '#e34671',
   deleted_bright = '#fc6b83',
 
-  -- UI elements
   line_nr = '#424242',
   line_nr_active = '#e4e4e4',
   border = '#262626',
   search = '#88c0d0',
   selection = '#404040',
 
-  -- Special
   none = 'NONE',
 }
-
--- ╭──────────────────────────────────────────────────────────╮
--- │ Helper Functions                                          │
--- ╰──────────────────────────────────────────────────────────╯
 
 local function highlight(group, opts)
   local fg = opts.fg and 'guifg=' .. opts.fg or ''
@@ -79,10 +64,6 @@ local function link(target, group)
   vim.api.nvim_command('highlight! link ' .. target .. ' ' .. group)
 end
 
--- ╭──────────────────────────────────────────────────────────╮
--- │ Editor UI                                                 │
--- ╰──────────────────────────────────────────────────────────╯
-
 highlight('Normal', { fg = palette.fg, bg = palette.bg_elevated })
 highlight('NormalFloat', { fg = palette.fg, bg = palette.bg })
 highlight('FloatBorder', { fg = palette.border, bg = palette.bg })
@@ -93,10 +74,6 @@ highlight('CursorColumn', { bg = palette.bg_hover })
 highlight('CursorLineNr', { fg = palette.line_nr_active, bg = palette.bg_elevated })
 highlight('LineNr', { fg = palette.line_nr, bg = palette.bg_elevated })
 highlight('SignColumn', { fg = palette.fg_dim, bg = palette.bg_elevated })
-
--- ╭──────────────────────────────────────────────────────────╮
--- │ Syntax Groups                                             │
--- ╰──────────────────────────────────────────────────────────╯
 
 highlight('Comment', { fg = palette.comment, style = 'italic' })
 highlight('Constant', { fg = palette.accent })
@@ -135,10 +112,6 @@ highlight('Delimiter', { fg = palette.fg })
 highlight('SpecialComment', { fg = palette.comment, style = 'italic' })
 highlight('Debug', { fg = palette.error })
 
--- ╭──────────────────────────────────────────────────────────╮
--- │ UI Elements                                               │
--- ╰──────────────────────────────────────────────────────────╯
-
 highlight('Pmenu', { fg = palette.fg, bg = palette.bg })
 highlight('PmenuSel', { fg = palette.fg_bright, bg = palette.bg_selected })
 highlight('PmenuSbar', { bg = palette.bg_hover })
@@ -169,10 +142,6 @@ highlight('WinSeparator', { fg = palette.border })
 highlight('Folded', { fg = palette.comment, bg = palette.bg_hover })
 highlight('FoldColumn', { fg = palette.fg_dim, bg = palette.bg_elevated })
 
--- ╭──────────────────────────────────────────────────────────╮
--- │ Diagnostics                                               │
--- ╰──────────────────────────────────────────────────────────╯
-
 highlight('ErrorMsg', { fg = palette.error })
 highlight('WarningMsg', { fg = palette.warning })
 
@@ -186,28 +155,15 @@ highlight('DiagnosticUnderlineWarn', { sp = palette.warning, style = 'underline'
 highlight('DiagnosticUnderlineInfo', { sp = palette.info, style = 'underline' })
 highlight('DiagnosticUnderlineHint', { sp = palette.hint, style = 'underline' })
 
--- ╭──────────────────────────────────────────────────────────╮
--- │ Diff                                                      │
--- ╰──────────────────────────────────────────────────────────╯
-
 highlight('DiffAdd', { fg = palette.added_bright, bg = palette.bg })
 highlight('DiffChange', { fg = palette.changed_bright, bg = palette.bg })
 highlight('DiffDelete', { fg = palette.deleted_bright, bg = palette.bg })
 highlight('DiffText', { fg = palette.fg, bg = palette.bg_hover })
 
--- ╭──────────────────────────────────────────────────────────╮
--- │ Git Signs                                                 │
--- ╰──────────────────────────────────────────────────────────╯
-
 highlight('GitSignsAdd', { fg = palette.added })
 highlight('GitSignsChange', { fg = palette.changed })
 highlight('GitSignsDelete', { fg = palette.deleted })
 
--- ╭──────────────────────────────────────────────────────────╮
--- │ TreeSitter                                                │
--- ╰──────────────────────────────────────────────────────────╯
-
--- Identifiers
 highlight('@variable', { fg = palette.fg })
 highlight('@variable.builtin', { fg = palette.keyword })
 highlight('@variable.parameter', { fg = palette.fg_muted })
@@ -220,7 +176,6 @@ highlight('@constant.macro', { fg = palette.accent })
 highlight('@module', { fg = palette.accent })
 highlight('@label', { fg = palette.keyword })
 
--- Literals
 highlight('@string', { fg = palette.string })
 highlight('@string.documentation', { fg = palette.comment, style = 'italic' })
 highlight('@string.regexp', { fg = palette.string })
@@ -234,7 +189,6 @@ highlight('@number', { fg = palette.number })
 highlight('@boolean', { fg = palette.keyword })
 highlight('@float', { fg = palette.number })
 
--- Functions
 highlight('@function', { fg = palette.accent })
 highlight('@function.builtin', { fg = palette.accent })
 highlight('@function.call', { fg = palette.accent })
@@ -246,7 +200,6 @@ highlight('@method.call', { fg = palette.accent })
 highlight('@constructor', { fg = palette.keyword })
 highlight('@parameter', { fg = palette.fg_muted })
 
--- Keywords
 highlight('@keyword', { fg = palette.keyword })
 highlight('@keyword.function', { fg = palette.keyword })
 highlight('@keyword.operator', { fg = palette.keyword })
@@ -261,7 +214,6 @@ highlight('@include', { fg = palette.keyword })
 highlight('@define', { fg = palette.keyword })
 highlight('@preproc', { fg = palette.keyword })
 
--- Types
 highlight('@type', { fg = palette.keyword })
 highlight('@type.builtin', { fg = palette.keyword })
 highlight('@type.definition', { fg = palette.keyword })
@@ -272,16 +224,13 @@ highlight('@attribute', { fg = palette.accent })
 highlight('@field', { fg = palette.accent })
 highlight('@property', { fg = palette.accent })
 
--- Punctuation
 highlight('@punctuation.delimiter', { fg = palette.fg })
 highlight('@punctuation.bracket', { fg = palette.fg })
 highlight('@punctuation.special', { fg = palette.accent })
 
--- Comments
 highlight('@comment', { fg = palette.comment, style = 'italic' })
 highlight('@comment.documentation', { fg = palette.comment, style = 'italic' })
 
--- Markup (Markdown, etc.)
 highlight('@markup.strong', { style = 'bold' })
 highlight('@markup.italic', { style = 'italic' })
 highlight('@markup.strikethrough', { style = 'strikethrough' })
@@ -300,10 +249,6 @@ highlight('@diff.plus', { fg = palette.added })
 highlight('@diff.minus', { fg = palette.deleted })
 highlight('@diff.delta', { fg = palette.changed })
 
--- ╭──────────────────────────────────────────────────────────╮
--- │ LSP Semantic Tokens                                       │
--- ╰──────────────────────────────────────────────────────────╯
-
 highlight('@lsp.type.class', { fg = palette.keyword })
 highlight('@lsp.type.decorator', { fg = palette.accent })
 highlight('@lsp.type.enum', { fg = palette.keyword })
@@ -320,20 +265,12 @@ highlight('@lsp.type.type', { fg = palette.keyword })
 highlight('@lsp.type.typeParameter', { fg = palette.keyword })
 highlight('@lsp.type.variable', { fg = palette.fg })
 
--- ╭──────────────────────────────────────────────────────────╮
--- │ Telescope                                                 │
--- ╰──────────────────────────────────────────────────────────╯
-
 highlight('TelescopeBorder', { fg = palette.border, bg = palette.bg })
 highlight('TelescopeNormal', { fg = palette.fg, bg = palette.bg })
 highlight('TelescopeSelection', { fg = palette.fg_bright, bg = palette.bg_selected })
 highlight('TelescopeSelectionCaret', { fg = palette.accent, bg = palette.bg_selected })
 highlight('TelescopeMultiSelection', { fg = palette.info, bg = palette.bg_selected })
 highlight('TelescopeMatching', { fg = palette.search, style = 'bold' })
-
--- ╭──────────────────────────────────────────────────────────╮
--- │ GitSigns                                                  │
--- ╰──────────────────────────────────────────────────────────╯
 
 highlight('GitSignsAdd', { fg = palette.added })
 highlight('GitSignsChange', { fg = palette.changed })
@@ -345,10 +282,6 @@ highlight('GitSignsAddLn', { bg = palette.bg_hover })
 highlight('GitSignsChangeLn', { bg = palette.bg_hover })
 highlight('GitSignsDeleteLn', { bg = palette.bg_hover })
 
--- ╭──────────────────────────────────────────────────────────╮
--- │ Mini.nvim                                                 │
--- ╰──────────────────────────────────────────────────────────╯
-
 highlight('MiniStatuslineModeNormal', { fg = palette.bg, bg = palette.info })
 highlight('MiniStatuslineModeInsert', { fg = palette.bg, bg = palette.added })
 highlight('MiniStatuslineModeVisual', { fg = palette.bg, bg = palette.warning })
@@ -359,17 +292,9 @@ highlight('MiniDiffSignAdd', { fg = palette.added })
 highlight('MiniDiffSignChange', { fg = palette.changed })
 highlight('MiniDiffSignDelete', { fg = palette.deleted })
 
--- ╭──────────────────────────────────────────────────────────╮
--- │ Flash.nvim                                                │
--- ╰──────────────────────────────────────────────────────────╯
-
 highlight('FlashLabel', { fg = palette.bg, bg = palette.search, style = 'bold' })
 highlight('FlashMatch', { fg = palette.search })
 highlight('FlashCurrent', { fg = palette.warning })
-
--- ╭──────────────────────────────────────────────────────────╮
--- │ Blink.cmp                                                 │
--- ╰──────────────────────────────────────────────────────────╯
 
 link('BlinkCmpMenu', 'Pmenu')
 link('BlinkCmpMenuBorder', 'FloatBorder')
@@ -377,15 +302,10 @@ link('BlinkCmpMenuSelection', 'PmenuSel')
 link('BlinkCmpLabel', 'Pmenu')
 link('BlinkCmpLabelMatch', 'Search')
 
--- ╭──────────────────────────────────────────────────────────╮
--- │ Oil.nvim                                                  │
--- ╰──────────────────────────────────────────────────────────╯
-
 link('OilDir', 'Directory')
 link('OilSocket', 'Special')
 link('OilLink', '@markup.link')
 
--- Terminal colors
 vim.g.terminal_color_0 = palette.bg
 vim.g.terminal_color_1 = palette.error
 vim.g.terminal_color_2 = palette.added
