@@ -15,6 +15,7 @@ local palette = {
   fg = '#7b88a1',
   fg_bright = '#d8dee9',
   fg_muted = '#616d87',
+  fg_dim = '#4c566a',
 
   comment = '#616d87',
   string = '#A3BE8C',
@@ -24,7 +25,9 @@ local palette = {
   char = '#EBCB8B',
 
   line_nr = '#4c566a',
+  line_nr_active = '#d8dee9',
   border = '#4b5163',
+  search = '#88C0D0',
 }
 
 require('cursor-themes').apply(palette)
