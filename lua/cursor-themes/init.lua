@@ -1,181 +1,301 @@
 local M = {}
 
-local function highlight(group, opts)
-  local fg = opts.fg and 'guifg=' .. opts.fg or ''
-  local bg = opts.bg and 'guibg=' .. opts.bg or ''
-  local style = opts.style and 'gui=' .. opts.style or ''
-  local sp = opts.sp and 'guisp=' .. opts.sp or ''
-
-  vim.api.nvim_command('highlight ' .. group .. ' ' .. fg .. ' ' .. bg .. ' ' .. style .. ' ' .. sp)
-end
-
-local function link(target, group)
-  vim.api.nvim_command('highlight! link ' .. target .. ' ' .. group)
-end
-
-function M.apply(palette)
-  highlight('Normal', { fg = palette.fg, bg = palette.bg })
-  highlight('NormalFloat', { fg = palette.fg, bg = palette.bg_elevated or palette.bg })
-  highlight('FloatBorder', { fg = palette.border, bg = palette.bg_elevated or palette.bg })
-  highlight('ColorColumn', { bg = palette.bg_hover })
-  highlight('Cursor', { fg = palette.bg, bg = palette.fg })
-  highlight('CursorLine', { bg = palette.bg_hover })
-  highlight('CursorColumn', { bg = palette.bg_hover })
-  highlight('CursorLineNr', { fg = palette.line_nr_active or palette.fg, bg = palette.bg })
-  highlight('LineNr', { fg = palette.line_nr })
-  highlight('SignColumn', { bg = palette.bg })
-  highlight('Visual', { bg = palette.bg_selected or palette.bg_hover })
-
-  highlight('Comment', { fg = palette.comment, style = 'italic' })
-  highlight('Constant', { fg = palette.constant or palette.accent })
-  highlight('String', { fg = palette.string })
-  highlight('Character', { fg = palette.char or palette.string })
-  highlight('Number', { fg = palette.number })
-  highlight('Boolean', { fg = palette.keyword })
-  highlight('Float', { fg = palette.number })
-
-  highlight('Identifier', { fg = palette.fg })
-  highlight('Function', { fg = palette.accent })
-
-  highlight('Statement', { fg = palette.keyword })
-  highlight('Conditional', { fg = palette.keyword })
-  highlight('Repeat', { fg = palette.keyword })
-  highlight('Label', { fg = palette.keyword })
-  highlight('Operator', { fg = palette.keyword })
-  highlight('Keyword', { fg = palette.keyword })
-  highlight('Exception', { fg = palette.keyword })
-
-  highlight('PreProc', { fg = palette.keyword })
-  highlight('Include', { fg = palette.keyword })
-  highlight('Define', { fg = palette.keyword })
-  highlight('Macro', { fg = palette.accent })
-  highlight('PreCondit', { fg = palette.keyword })
-
-  highlight('Type', { fg = palette.keyword })
-  highlight('StorageClass', { fg = palette.keyword })
-  highlight('Structure', { fg = palette.keyword })
-  highlight('Typedef', { fg = palette.keyword })
-
-  highlight('Special', { fg = palette.accent })
-  highlight('SpecialChar', { fg = palette.char or palette.accent })
-  highlight('Tag', { fg = palette.fg_muted or palette.fg })
-  highlight('Delimiter', { fg = palette.fg })
-  highlight('SpecialComment', { fg = palette.comment, style = 'italic' })
-  highlight('Debug', { fg = palette.keyword })
-
-  highlight('Pmenu', { fg = palette.fg, bg = palette.bg_elevated or palette.bg })
-  highlight('PmenuSel', { fg = palette.fg_bright or palette.fg, bg = palette.bg_selected or palette.bg_hover })
-  highlight('PmenuSbar', { bg = palette.bg_hover })
-  highlight('PmenuThumb', { bg = palette.fg })
-
-  highlight('TabLine', { fg = palette.fg_muted or palette.comment, bg = palette.bg_elevated or palette.bg })
-  highlight('TabLineFill', { bg = palette.bg_elevated or palette.bg })
-  highlight('TabLineSel', { fg = palette.fg, bg = palette.bg })
-
-  highlight('StatusLine', { fg = palette.fg_muted or palette.fg, bg = palette.border })
-  highlight('StatusLineNC', { fg = palette.fg_muted or palette.fg, bg = palette.border })
-
-  highlight('WildMenu', { fg = palette.fg, bg = palette.bg_selected or palette.bg_hover })
-
-  highlight('Search', { fg = palette.bg, bg = palette.search or palette.keyword })
-  highlight('IncSearch', { fg = palette.bg, bg = palette.warning or palette.accent })
-
-  highlight('Question', { fg = palette.info or palette.accent })
-  highlight('MoreMsg', { fg = palette.info or palette.accent })
-  highlight('ModeMsg', { fg = palette.fg_muted or palette.fg })
-
-  highlight('VertSplit', { fg = palette.border })
-  highlight('WinSeparator', { fg = palette.border })
-
-  highlight('Folded', { fg = palette.comment, bg = palette.bg_hover })
-  highlight('FoldColumn', { fg = palette.fg_dim or palette.fg_muted or palette.fg })
-
-  highlight('ErrorMsg', { fg = palette.error or palette.keyword })
-  highlight('WarningMsg', { fg = palette.warning or palette.accent })
-
-  if palette.error then
-    highlight('DiagnosticError', { fg = palette.error })
-    highlight('DiagnosticUnderlineError', { sp = palette.error, style = 'underline' })
+function M.apply(c)
+  local hl = function(group, opts)
+    vim.api.nvim_set_hl(0, group, opts)
   end
 
-  if palette.warning then
-    highlight('DiagnosticWarn', { fg = palette.warning })
-    highlight('DiagnosticUnderlineWarn', { sp = palette.warning, style = 'underline' })
+  -- editor
+  hl("Normal", { fg = c.fg, bg = c.bg })
+  hl("NormalFloat", { fg = c.fg, bg = c.bg_elevated or c.bg })
+  hl("FloatBorder", { fg = c.border, bg = c.bg_elevated or c.bg })
+  hl("FloatTitle", { fg = c.accent, bg = c.bg_elevated or c.bg })
+  hl("Cursor", { fg = c.bg, bg = c.accent })
+  hl("CursorLine", { bg = c.bg_hover or c.bg })
+  hl("CursorLineNr", { fg = c.line_nr_active or c.fg })
+  hl("LineNr", { fg = c.line_nr })
+  hl("SignColumn", { bg = c.bg })
+  hl("VertSplit", { fg = c.border })
+  hl("WinSeparator", { fg = c.border })
+  hl("StatusLine", { fg = c.fg_muted or c.fg, bg = c.bg })
+  hl("StatusLineNC", { fg = c.fg_dim or c.fg_muted or c.fg, bg = c.bg })
+  hl("TabLine", { fg = c.fg_muted or c.fg, bg = c.bg })
+  hl("TabLineFill", { bg = c.bg })
+  hl("TabLineSel", { fg = c.fg, bg = c.bg_elevated or c.bg })
+  hl("Pmenu", { fg = c.fg, bg = c.bg_elevated or c.bg })
+  hl("PmenuSel", { fg = c.fg, bg = c.bg_selected or c.bg_hover or c.bg })
+  hl("PmenuSbar", { bg = c.bg_elevated or c.bg })
+  hl("PmenuThumb", { bg = c.bg_hover or c.bg })
+  hl("Visual", { bg = c.bg_hover or c.bg_selected or c.bg })
+  hl("Search", { fg = c.fg, bg = c.search or c.bg_hover or c.bg })
+  hl("IncSearch", { fg = c.bg, bg = c.accent })
+  hl("CurSearch", { fg = c.bg, bg = c.accent })
+  hl("MatchParen", { fg = c.accent, bg = c.bg_hover or c.bg })
+  hl("Folded", { fg = c.fg_muted or c.fg, bg = c.bg_elevated or c.bg })
+  hl("FoldColumn", { fg = c.fg_dim or c.fg_muted or c.fg, bg = c.bg })
+  hl("NonText", { fg = c.fg_dim or c.fg_muted or c.fg })
+  hl("SpecialKey", { fg = c.fg_dim or c.fg_muted or c.fg })
+  hl("Whitespace", { fg = c.fg_dim or c.fg_muted or c.fg })
+  hl("EndOfBuffer", { fg = c.bg })
+  hl("Directory", { fg = c.accent })
+  hl("Question", { fg = c.accent })
+  hl("MoreMsg", { fg = c.accent })
+  hl("ModeMsg", { fg = c.fg_muted or c.fg })
+  hl("ErrorMsg", { fg = c.error or c.fg })
+  hl("WarningMsg", { fg = c.warning or c.accent })
+  hl("Title", { fg = c.accent })
+  hl("WildMenu", { fg = c.fg, bg = c.bg_selected or c.bg_hover or c.bg })
+
+  -- syntax
+  hl("Comment", { fg = c.comment })
+  hl("Constant", { fg = c.constant or c.accent })
+  hl("String", { fg = c.string })
+  hl("Character", { fg = c.char or c.string })
+  hl("Number", { fg = c.number or c.accent })
+  hl("Boolean", { fg = c.accent })
+  hl("Float", { fg = c.number or c.accent })
+  hl("Identifier", { fg = c.fg })
+  hl("Function", { fg = c.accent })
+  hl("Statement", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("Conditional", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("Repeat", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("Label", { fg = c.accent })
+  hl("Operator", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("Keyword", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("Exception", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("PreProc", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("Include", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("Define", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("Macro", { fg = c.accent })
+  hl("PreCondit", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("Type", { fg = c.accent })
+  hl("StorageClass", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("Structure", { fg = c.accent })
+  hl("Typedef", { fg = c.accent })
+  hl("Special", { fg = c.accent })
+  hl("SpecialChar", { fg = c.accent })
+  hl("Tag", { fg = c.accent })
+  hl("Delimiter", { fg = c.fg_muted or c.fg })
+  hl("SpecialComment", { fg = c.comment })
+  hl("Debug", { fg = c.error or c.fg })
+  hl("Underlined", { fg = c.accent, underline = true })
+  hl("Error", { fg = c.error or c.fg })
+  hl("Todo", { fg = c.accent, bg = c.bg_elevated or c.bg })
+
+  -- diagnostics
+  if c.error then
+    hl("DiagnosticError", { fg = c.error })
+    hl("DiagnosticUnderlineError", { sp = c.error, undercurl = true })
+    hl("DiagnosticVirtualTextError", { fg = c.error, bg = c.bg })
+    hl("DiagnosticFloatingError", { fg = c.error })
+    hl("DiagnosticSignError", { fg = c.error })
   end
 
-  if palette.info then
-    highlight('DiagnosticInfo', { fg = palette.info })
-    highlight('DiagnosticUnderlineInfo', { sp = palette.info, style = 'underline' })
+  if c.warning then
+    hl("DiagnosticWarn", { fg = c.warning })
+    hl("DiagnosticUnderlineWarn", { sp = c.warning, undercurl = true })
+    hl("DiagnosticVirtualTextWarn", { fg = c.warning, bg = c.bg })
+    hl("DiagnosticFloatingWarn", { fg = c.warning })
+    hl("DiagnosticSignWarn", { fg = c.warning })
   end
 
-  if palette.hint then
-    highlight('DiagnosticHint', { fg = palette.hint })
-    highlight('DiagnosticUnderlineHint', { sp = palette.hint, style = 'underline' })
+  if c.info then
+    hl("DiagnosticInfo", { fg = c.info })
+    hl("DiagnosticUnderlineInfo", { sp = c.info, undercurl = true })
+    hl("DiagnosticVirtualTextInfo", { fg = c.info, bg = c.bg })
+    hl("DiagnosticFloatingInfo", { fg = c.info })
+    hl("DiagnosticSignInfo", { fg = c.info })
   end
 
-  if palette.bg_diff_add then
-    highlight('DiffAdd', { bg = palette.bg_diff_add })
-  elseif palette.added then
-    highlight('DiffAdd', { fg = palette.added_bright or palette.added })
+  if c.hint then
+    hl("DiagnosticHint", { fg = c.hint })
+    hl("DiagnosticUnderlineHint", { sp = c.hint, undercurl = true })
+    hl("DiagnosticVirtualTextHint", { fg = c.hint, bg = c.bg })
+    hl("DiagnosticFloatingHint", { fg = c.hint })
+    hl("DiagnosticSignHint", { fg = c.hint })
   end
 
-  if palette.bg_diff_delete then
-    highlight('DiffDelete', { bg = palette.bg_diff_delete })
-  elseif palette.deleted then
-    highlight('DiffDelete', { fg = palette.deleted_bright or palette.deleted })
+  -- lsp
+  hl("LspReferenceText", { bg = c.bg_hover or c.bg })
+  hl("LspReferenceRead", { bg = c.bg_hover or c.bg })
+  hl("LspReferenceWrite", { bg = c.bg_hover or c.bg })
+  hl("LspSignatureActiveParameter", { fg = c.accent })
+  hl("LspInlayHint", { fg = c.fg_dim or c.fg_muted or c.fg, bg = c.bg })
+
+  -- diff
+  if c.bg_diff_add then
+    hl("DiffAdd", { bg = c.bg_diff_add })
+  elseif c.added then
+    hl("DiffAdd", { fg = c.added, bg = c.bg })
   end
 
-  if palette.changed then
-    highlight('DiffChange', { fg = palette.changed_bright or palette.changed })
+  if c.bg_diff_delete then
+    hl("DiffDelete", { bg = c.bg_diff_delete })
+  elseif c.deleted then
+    hl("DiffDelete", { fg = c.deleted, bg = c.bg })
   end
 
-  highlight('DiffText', { fg = palette.fg, bg = palette.bg_hover })
-
-  if palette.added then
-    highlight('GitSignsAdd', { fg = palette.added })
-  end
-  if palette.changed then
-    highlight('GitSignsChange', { fg = palette.changed })
-  end
-  if palette.deleted then
-    highlight('GitSignsDelete', { fg = palette.deleted })
+  if c.changed then
+    hl("DiffChange", { fg = c.changed, bg = c.bg })
+    hl("DiffText", { fg = c.changed, bg = c.bg_hover or c.bg })
   end
 
-  link('TSCharacter', 'Character')
-  link('TSComment', 'Comment')
-  link('TSConditional', 'Conditional')
-  link('TSConstant', 'Constant')
-  link('TSConstBuiltin', 'TSVariableBuiltin')
-  link('TSField', 'Constant')
-  link('TSFloat', 'Number')
-  link('TSFunction', 'Function')
-  link('TSFuncMacro', 'Macro')
-  link('TSKeyword', 'Keyword')
-  link('TSLabel', 'Type')
-  link('TSNamespace', 'TSType')
-  link('TSNumber', 'Number')
-  link('TSOperator', 'Operator')
-  link('TSParameter', 'Constant')
-  link('TSParameterReference', 'TSParameter')
-  link('TSProperty', 'TSField')
-  link('TSPunctBracket', 'MyTag')
-  link('TSPunctDelimiter', 'Delimiter')
-  link('TSPunctSpecial', 'TSPunctDelimiter')
-  link('TSRepeat', 'Repeat')
-  link('TSString', 'String')
-  link('TSTag', 'MyTag')
-  link('TSTagDelimiter', 'Type')
-  link('TSType', 'Type')
+  if c.added then
+    hl("Added", { fg = c.added })
+  end
+  if c.changed then
+    hl("Changed", { fg = c.changed })
+  end
+  if c.deleted then
+    hl("Removed", { fg = c.deleted })
+  end
 
-  link('CursorLineNr', 'Identifier')
-  link('Conditional', 'Operator')
-  link('Folded', 'Comment')
-  link('Macro', 'Function')
-  link('NonText', 'Comment')
-  link('Operator', 'Keyword')
-  link('Repeat', 'Conditional')
-  link('TelescopeNormal', 'Normal')
-  link('Whitespace', 'Comment')
+  -- gitsigns
+  if c.added then
+    hl("GitSignsAdd", { fg = c.added })
+  end
+  if c.changed then
+    hl("GitSignsChange", { fg = c.changed })
+  end
+  if c.deleted then
+    hl("GitSignsDelete", { fg = c.deleted })
+  end
+
+  -- mini.diff
+  if c.added then
+    hl("MiniDiffSignAdd", { fg = c.added })
+    hl("MiniDiffOverAdd", { fg = c.added, bg = c.bg })
+  end
+  if c.changed then
+    hl("MiniDiffSignChange", { fg = c.changed })
+    hl("MiniDiffOverChange", { fg = c.changed, bg = c.bg })
+  end
+  if c.deleted then
+    hl("MiniDiffSignDelete", { fg = c.deleted })
+    hl("MiniDiffOverDelete", { fg = c.deleted, bg = c.bg })
+  end
+
+  -- mini.statusline
+  hl("MiniStatuslineDevinfo", { fg = c.fg_muted or c.fg, bg = c.bg })
+  hl("MiniStatuslineFileinfo", { fg = c.fg_muted or c.fg, bg = c.bg })
+  hl("MiniStatuslineFilename", { fg = c.fg, bg = c.bg })
+  hl("MiniStatuslineInactive", { fg = c.fg_dim or c.fg_muted or c.fg, bg = c.bg })
+  hl("MiniStatuslineModeCommand", { fg = c.bg, bg = c.accent })
+  hl("MiniStatuslineModeInsert", { fg = c.bg, bg = c.accent })
+  hl("MiniStatuslineModeNormal", { fg = c.bg, bg = c.fg_muted or c.fg })
+  hl("MiniStatuslineModeOther", { fg = c.bg, bg = c.fg_dim or c.fg_muted or c.fg })
+  hl("MiniStatuslineModeReplace", { fg = c.bg, bg = c.fg_muted or c.fg })
+  hl("MiniStatuslineModeVisual", { fg = c.bg, bg = c.accent })
+
+  -- telescope
+  hl("TelescopeNormal", { fg = c.fg, bg = c.bg })
+  hl("TelescopeBorder", { fg = c.border, bg = c.bg })
+  hl("TelescopeTitle", { fg = c.accent, bg = c.bg })
+  hl("TelescopePromptNormal", { fg = c.fg, bg = c.bg })
+  hl("TelescopePromptBorder", { fg = c.border, bg = c.bg })
+  hl("TelescopePromptTitle", { fg = c.accent, bg = c.bg })
+  hl("TelescopePromptPrefix", { fg = c.accent, bg = c.bg })
+  hl("TelescopeResultsNormal", { fg = c.fg, bg = c.bg })
+  hl("TelescopeResultsBorder", { fg = c.border, bg = c.bg })
+  hl("TelescopeResultsTitle", { fg = c.accent, bg = c.bg })
+  hl("TelescopePreviewNormal", { fg = c.fg, bg = c.bg })
+  hl("TelescopePreviewBorder", { fg = c.border, bg = c.bg })
+  hl("TelescopePreviewTitle", { fg = c.accent, bg = c.bg })
+  hl("TelescopeSelection", { fg = c.fg, bg = c.bg_selected or c.bg_hover or c.bg })
+  hl("TelescopeSelectionCaret", { fg = c.accent, bg = c.bg_selected or c.bg_hover or c.bg })
+  hl("TelescopeMatching", { fg = c.accent })
+
+  -- blink.cmp
+  hl("BlinkCmpMenu", { fg = c.fg, bg = c.bg_elevated or c.bg })
+  hl("BlinkCmpMenuBorder", { fg = c.border, bg = c.bg_elevated or c.bg })
+  hl("BlinkCmpMenuSelection", { bg = c.bg_selected or c.bg_hover or c.bg })
+  hl("BlinkCmpLabel", { fg = c.fg })
+  hl("BlinkCmpLabelMatch", { fg = c.accent })
+  hl("BlinkCmpLabelDescription", { fg = c.fg_muted or c.fg })
+  hl("BlinkCmpKind", { fg = c.accent })
+  hl("BlinkCmpDoc", { fg = c.fg, bg = c.bg_elevated or c.bg })
+  hl("BlinkCmpDocBorder", { fg = c.border, bg = c.bg_elevated or c.bg })
+  hl("BlinkCmpSignatureHelp", { fg = c.fg, bg = c.bg_elevated or c.bg })
+  hl("BlinkCmpSignatureHelpBorder", { fg = c.border, bg = c.bg_elevated or c.bg })
+
+  -- oil
+  hl("OilDir", { fg = c.accent })
+  hl("OilFile", { fg = c.fg })
+  hl("OilSocket", { fg = c.fg_muted or c.fg })
+  hl("OilLink", { fg = c.string })
+  hl("OilLinkTarget", { fg = c.fg_muted or c.fg })
+
+  -- treesitter
+  hl("@variable", { fg = c.fg })
+  hl("@variable.builtin", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("@variable.parameter", { fg = c.fg })
+  hl("@variable.member", { fg = c.fg })
+  hl("@constant", { fg = c.accent })
+  hl("@constant.builtin", { fg = c.accent })
+  hl("@constant.macro", { fg = c.accent })
+  hl("@module", { fg = c.fg })
+  hl("@label", { fg = c.accent })
+  hl("@string", { fg = c.string })
+  hl("@string.escape", { fg = c.accent })
+  hl("@string.regexp", { fg = c.string })
+  hl("@string.special", { fg = c.string })
+  hl("@character", { fg = c.char or c.string })
+  hl("@character.special", { fg = c.accent })
+  hl("@boolean", { fg = c.accent })
+  hl("@number", { fg = c.number or c.accent })
+  hl("@number.float", { fg = c.number or c.accent })
+  hl("@type", { fg = c.accent })
+  hl("@type.builtin", { fg = c.accent })
+  hl("@type.definition", { fg = c.accent })
+  hl("@attribute", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("@property", { fg = c.fg })
+  hl("@function", { fg = c.accent })
+  hl("@function.builtin", { fg = c.accent })
+  hl("@function.macro", { fg = c.accent })
+  hl("@function.method", { fg = c.accent })
+  hl("@constructor", { fg = c.accent })
+  hl("@operator", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("@keyword", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("@keyword.modifier", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("@keyword.type", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("@keyword.coroutine", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("@keyword.function", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("@keyword.operator", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("@keyword.import", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("@keyword.repeat", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("@keyword.return", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("@keyword.exception", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("@keyword.conditional", { fg = c.keyword or c.fg_muted or c.fg })
+  hl("@punctuation", { fg = c.fg_muted or c.fg })
+  hl("@punctuation.delimiter", { fg = c.fg_muted or c.fg })
+  hl("@punctuation.bracket", { fg = c.fg_muted or c.fg })
+  hl("@punctuation.special", { fg = c.fg_muted or c.fg })
+  hl("@comment", { fg = c.comment })
+  hl("@comment.documentation", { fg = c.comment })
+  hl("@comment.error", { fg = c.error or c.fg })
+  hl("@comment.warning", { fg = c.warning or c.accent })
+  hl("@comment.todo", { fg = c.accent })
+  hl("@comment.note", { fg = c.info or c.accent })
+  hl("@markup.heading", { fg = c.accent })
+  hl("@markup.quote", { fg = c.fg_muted or c.fg })
+  hl("@markup.math", { fg = c.accent })
+  hl("@markup.link", { fg = c.accent })
+  hl("@markup.link.label", { fg = c.accent })
+  hl("@markup.link.url", { fg = c.string, underline = true })
+  hl("@markup.raw", { fg = c.string })
+  hl("@markup.list", { fg = c.fg_muted or c.fg })
+  hl("@markup.strong", { bold = true })
+  hl("@markup.italic", { italic = true })
+  hl("@markup.strikethrough", { strikethrough = true })
+  hl("@tag", { fg = c.accent })
+  hl("@tag.attribute", { fg = c.fg_muted or c.fg })
+  hl("@tag.delimiter", { fg = c.fg_muted or c.fg })
+
+  -- flash.nvim
+  hl("FlashLabel", { fg = c.bg, bg = c.accent, bold = true })
+  hl("FlashMatch", { fg = c.accent })
+  hl("FlashCurrent", { fg = c.bg, bg = c.string })
+  hl("FlashBackdrop", { fg = c.comment })
 end
 
 return M
