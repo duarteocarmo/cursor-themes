@@ -1,16 +1,19 @@
 # Cursor Themes for Neovim
 
-Modern Neovim colorschemes inspired by [Cursor](https://cursor.com/). 
+Modern Neovim colorschemes inspired by [Cursor](https://cursor.com/).
 
 ## Themes
 
 ### cursor-dark
+
 ![cursor-dark](shots/cursor-dark.png)
 
 ### cursor-dark-midnight
+
 ![cursor-dark-midnight](shots/cursor-dark-midnight.png)
 
 ### cursor-light
+
 ![cursor-light](shots/cursor-light.png)
 
 ## Installation
@@ -19,11 +22,12 @@ Modern Neovim colorschemes inspired by [Cursor](https://cursor.com/).
 
 ```lua
 {
-  'duarteocarmo/cursor-themes.nvim',
+  'duarteocarmo/cursor-themes',
   lazy = false,
   priority = 1000,
 }
 ```
+
 You can also use any other plugin manager - it should work.
 
 ## Usage
